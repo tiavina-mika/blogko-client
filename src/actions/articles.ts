@@ -15,21 +15,21 @@ const queryArticle = async (id: string): Promise<Parse.Object | undefined>  => {
 
   return article;
 }
-export const createArticle = async (values: IArticleInput) => {
+export const createArticle = async (values: IArticleInput): Promise<Parse.Object | undefined> => {
   try {
     const article = new Article();
     article.set('title', values.title);
     const newArticle = await article.save();
-    const newArticleJson = newArticle.toJSON()
 
-    console.log('newArticleJson id: ', newArticleJson);
+    console.log('newArticleJson id: ', newArticle.toJSON());
+    return newArticle
 
   } catch (error) {
     console.log(' ------ createArticle error: ', error);
   }
 }
 
-export const updateArticle = async (id: string, values: IArticleInput) => {
+export const updateArticle = async (id: string, values: IArticleInput): Promise<Parse.Object | undefined> => {
   try {
     const article = await queryArticle(id);
 
@@ -38,6 +38,7 @@ export const updateArticle = async (id: string, values: IArticleInput) => {
     article.set('title', values.title);
     const newArticle = await article.save();
     console.log(' ------ updateArticle newArticle: ', newArticle);
+    return newArticle
   } catch (error) {
     console.log('updateArticle error: ', error);
   }
@@ -57,13 +58,15 @@ export const deleteArticle = async (id: string): Promise<void> => {
 export const getArticles = async (): Promise<Parse.Object[] | undefined> => {
   try {
     const articles = await new Parse.Query(Article)
+      .include()
       .find();
 
       
     const total = await Parse.Cloud.run('numbersSum', { a: 1, b: 9 })
     console.log('total: ', total);
   
-    console.log(' ------ getArticles articles: ', articles);
+    // console.log(' ------ getArticles articles: ', articles.map((article) => article.toJSON()));
+    console.log(articles[0].toJSON().category.name);
     return articles
   } catch (error) {
     console.log('getArticles error: ', error);
