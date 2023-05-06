@@ -1,7 +1,7 @@
 import { Stack, Box, styled } from '@mui/material';
 import Articles from './Articles';
 import Categories from './Categories';
-
+import Auth from './Auth';
 
 const StyledContainer = styled(Box)({
   padding: 12,
@@ -16,6 +16,7 @@ const Home = () => {
       <Stack spacing={4}>
         <Articles />
         <Categories />
+        <Auth />
       </Stack>
     </StyledContainer>
   );
