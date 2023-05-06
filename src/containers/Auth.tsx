@@ -1,5 +1,5 @@
 import { Stack, Button, styled, Typography } from '@mui/material';
-import { logout, signUp } from '../actions/auth';
+import { deleteMyAccount, getCurrentUser, login, logout, signUp } from '../actions/auth';
 
 
 const StyledButton = styled(Button)({
@@ -20,14 +20,32 @@ const Auth = () => {
     await logout()
   }
 
+  const handleLogin = async () => {
+    const values = {
+      email: 'user1@gmail.com',
+      password: 'user1@gmail.com',
+    }
+    await login(values)
+  }
+
+  const handleProfile = async () => {
+    await getCurrentUser()
+  }
+
+  const handleDeleteMyAccount = async () => {
+    await deleteMyAccount()
+  }
+
   return (
     <Stack spacing={2}>
       <Typography variant="h5">
-        Category
+        Auth
       </Typography>
       <StyledButton variant="contained" color="info" onClick={handleSignUp}>SignUp</StyledButton>
-      <StyledButton variant="contained" color="info" onClick={handleLogOut}>LogOut</StyledButton>
-      {/* <StyledButton variant="contained" color="secondary" onClick={handleCategoryCreation}>Login</StyledButton> */}
+      <StyledButton variant="contained" color="secondary" onClick={handleLogin}>Login</StyledButton>
+      <StyledButton variant="contained" color="info" onClick={handleLogOut}>Log out</StyledButton>
+      <StyledButton variant="contained" color="secondary" onClick={handleProfile}>Profile</StyledButton>
+      <StyledButton variant="contained" color="secondary" onClick={handleDeleteMyAccount}>Delete my account</StyledButton>
     </Stack>
   );
 }

@@ -5,3 +5,4 @@ export interface IUser extends Parse.User {
 }
 
 export interface IUserInput extends Pick<IUser, 'email' | 'password' | 'name'> {}
+export interface ILoginInput extends Pick<IUser, 'email' | 'password'> {}
