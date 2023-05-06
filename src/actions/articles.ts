@@ -49,3 +49,14 @@ export const deleteArticle = async (id: string) => {
     console.log('deleteArticle error: ', error);
   }
 }
+
+export const getArticles = async () => {
+  try {
+    const articles = await new Parse.Query(Article)
+      .find();
+  
+    console.log(' ------ getArticles articles: ', articles);
+  } catch (error) {
+    console.log('getArticles error: ', error);
+  }
+}
