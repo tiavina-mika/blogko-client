@@ -20,7 +20,10 @@ export const createArticle = async (values: IArticleInput) => {
     const article = new Article();
     article.set('title', values.title);
     const newArticle = await article.save();
-    console.log('newArticle: ', newArticle);
+    const newArticleJson = newArticle.toJSON()
+
+    console.log('newArticleJson id: ', newArticleJson);
+
   } catch (error) {
     console.log(' ------ createArticle error: ', error);
   }
@@ -52,6 +55,7 @@ export const deleteArticle = async (id: string): Promise<void> => {
 }
 
 export const getArticles = async (): Promise<Parse.Object[] | undefined> => {
+  console.log('hello');
   try {
     const articles = await new Parse.Query(Article)
       .find();
