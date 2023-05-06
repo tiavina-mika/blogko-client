@@ -7,6 +7,7 @@ const Article = Parse.Object.extend("Article");
 const queryArticle = async (id: string): Promise<Parse.Object | undefined>  => {
   const article = await new Parse.Query(Article)
   .equalTo('objectId', id)
+  .include(['user', 'category'])
   .first();
 
   if (!article) {
@@ -58,7 +59,7 @@ export const deleteArticle = async (id: string): Promise<void> => {
 export const getArticles = async (): Promise<Parse.Object[] | undefined> => {
   try {
     const articles = await new Parse.Query(Article)
-      .include()
+      .include(['user', 'category'])
       .find();
 
       
