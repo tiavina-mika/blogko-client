@@ -4,6 +4,17 @@ import { IArticleInput } from "../types/article.type";
 
 const Article = Parse.Object.extend("Article");
 
+const queryArticle = async (id: string): Promise<Parse.Object | undefined>  => {
+  const article = await new Parse.Query(Article)
+  .equalTo('objectId', id)
+  .first();
+
+  if (!article) {
+    throw Error('No Article found')
+  }
+
+  return article;
+}
 export const createArticle = async (values: IArticleInput) => {
   try {
     const article = new Article();
@@ -17,13 +28,9 @@ export const createArticle = async (values: IArticleInput) => {
 
 export const updateArticle = async (id: string, values: IArticleInput) => {
   try {
-    const article = await new Parse.Query(Article)
-      .equalTo('objectId', id)
-      .first();
+    const article = await queryArticle(id);
 
-    if (!article) {
-      throw Error('No Article found')
-    }
+    if (!article) return;
   
     article.set('title', values.title);
     const newArticle = await article.save();
@@ -33,30 +40,36 @@ export const updateArticle = async (id: string, values: IArticleInput) => {
   }
 }
 
-export const deleteArticle = async (id: string) => {
+export const deleteArticle = async (id: string): Promise<void> => {
   try {
-    const article = await new Parse.Query(Article)
-      .equalTo('objectId', id)
-      .first();
-
-    if (!article) {
-      throw Error('No Article found')
-    }
+    const article = await queryArticle(id);
+    if (!article) return;
   
-    const newArticle = await article.destroy();
-    console.log(' ------ deleteArticle newArticle: ', newArticle);
+    await article.destroy();
   } catch (error) {
     console.log('deleteArticle error: ', error);
   }
 }
 
-export const getArticles = async () => {
+export const getArticles = async (): Promise<Parse.Object[] | undefined> => {
   try {
     const articles = await new Parse.Query(Article)
       .find();
   
     console.log(' ------ getArticles articles: ', articles);
+    return articles
   } catch (error) {
     console.log('getArticles error: ', error);
+  }
+}
+
+export const getArticle = async (id: string): Promise<Parse.Object | undefined> => {
+  try {
+    const article = await queryArticle(id);
+  
+    console.log(' ------ getArticle articles: ', article);
+    return article;
+  } catch (error) {
+    console.log('getArticle error: ', error);
   }
 }

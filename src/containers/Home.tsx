@@ -1,5 +1,5 @@
 import { Stack, Button, Box, styled } from '@mui/material';
-import { createArticle, deleteArticle, getArticles, updateArticle } from '../actions/articles';
+import { createArticle, deleteArticle, getArticle, getArticles, updateArticle } from '../actions/articles';
 
 // const StyledContainer = styled(Box)(({ theme }) => ({
 //   padding: 12,
@@ -7,6 +7,8 @@ import { createArticle, deleteArticle, getArticles, updateArticle } from '../act
 //   justifyContent: 'center',
 //   backgroundColor: theme.palette.primary.main
 // }));
+
+const id = '125VZDpW04';
 
 const StyledContainer = styled(Box)({
   padding: 12,
@@ -23,7 +25,6 @@ const Home = () => {
   }
 
   const handleArticleEdition = async () => {
-    const id = 'WkDDfGRaTB';
     const values = {
       title: 'Article 1 mod',
     }
@@ -31,13 +32,16 @@ const Home = () => {
   }
 
   const handleArticleDeletion = async () => {
-    const id = 'WkDDfGRaTB';
 
     await deleteArticle(id)
   }
 
   const handleArticlesLoad= async () => {
     await getArticles()
+  }
+
+  const handleArticleLoad = async () => {
+    await getArticle(id)
   }
 
   return (
@@ -47,7 +51,7 @@ const Home = () => {
         <Button variant="contained" color="primary" onClick={handleArticleEdition}>Update Article</Button>
         <Button variant="contained" color="primary" onClick={handleArticleDeletion}>Delete Article</Button>
         <Button variant="contained" color="primary" onClick={handleArticlesLoad}>Get Articles</Button>
-        <Button variant="contained" color="primary">Get Article</Button>
+        <Button variant="contained" color="primary" onClick={handleArticleLoad}>Get Article</Button>
       </Stack>      
     </StyledContainer>
 
