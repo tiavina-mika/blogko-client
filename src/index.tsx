@@ -14,7 +14,7 @@ const init = () => {
   const location = window.location;
   // LOCAL can also mean "accessed by a remote machine (like a Mac) on the local dev network"
   const hostName = location.hostname;
-  const LOCAL: boolean = hostName.includes('locahost');
+  const LOCAL: boolean = hostName.includes('localhost');
   const PREPROD: boolean = hostName.includes('preprod');
   const PROD = !LOCAL && !PREPROD;
 

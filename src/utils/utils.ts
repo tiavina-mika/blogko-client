@@ -6,7 +6,7 @@
  */
 export const getServerUrl = (): string => {
   if ((window as any).LOCAL) {
-    const SERVER_PORT = 8082;
+    const SERVER_PORT = 8088;
     const location = window.location;
     return location.protocol + '//' + location.hostname + ':' + SERVER_PORT;
   }

@@ -1,4 +1,5 @@
 import { Stack, Button, Box, styled } from '@mui/material';
+import { createArticle, updateArticle } from '../actions/articles';
 
 // const StyledContainer = styled(Box)(({ theme }) => ({
 //   padding: 12,
@@ -14,11 +15,26 @@ const StyledContainer = styled(Box)({
 });
 
 const Home = () => {
+  const handleArticleCreation = async () => {
+    const values = {
+      title: 'Article 1',
+    }
+    await createArticle(values)
+  }
+
+  const handleArticleEdition = async () => {
+    const id = 'WkDDfGRaTB';
+    const values = {
+      title: 'Article 1 mod',
+    }
+    await updateArticle(id, values)
+  }
+
   return (
     <StyledContainer>
       <Stack direction="row" spacing={2}>
-        <Button variant="contained" color="primary">Create Article</Button>
-        <Button variant="contained" color="primary">Update Article</Button>
+        <Button variant="contained" color="primary" onClick={handleArticleCreation}>Create Article</Button>
+        <Button variant="contained" color="primary" onClick={handleArticleEdition}>Update Article</Button>
         <Button variant="contained" color="primary">Get Articles</Button>
         <Button variant="contained" color="primary">Get Article</Button>
       </Stack>      
