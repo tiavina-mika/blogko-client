@@ -73,3 +73,17 @@ export const getArticle = async (id: string): Promise<Parse.Object | undefined> 
     console.log('getArticle error: ', error);
   }
 }
+
+export const deleteAllArticles = async (): Promise<void> => {
+  try {
+    await new Parse.Query(Article)
+      .each(async article => {
+        await article.destroy()
+      });
+
+  
+    console.log(' ------ deleteAllArticles: ');
+  } catch (error) {
+    console.log('getArticle error: ', error);
+  }
+}

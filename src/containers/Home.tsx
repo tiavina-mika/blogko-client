@@ -1,5 +1,5 @@
 import { Stack, Button, Box, styled } from '@mui/material';
-import { createArticle, deleteArticle, getArticle, getArticles, updateArticle } from '../actions/articles';
+import { createArticle, deleteAllArticles, deleteArticle, getArticle, getArticles, updateArticle } from '../actions/articles';
 
 // const StyledContainer = styled(Box)(({ theme }) => ({
 //   padding: 12,
@@ -12,8 +12,13 @@ const id = '125VZDpW04';
 
 const StyledContainer = styled(Box)({
   padding: 12,
+  paddingTop: 32,
   display: 'flex',
   justifyContent: 'center',
+});
+
+const StyledButton = styled(Button)({
+  width: 400
 });
 
 const Home = () => {
@@ -44,14 +49,19 @@ const Home = () => {
     await getArticle(id)
   }
 
+  const handleDeleteAllArticles = async () => {
+    await deleteAllArticles()
+  }
+
   return (
     <StyledContainer>
-      <Stack direction="row" spacing={2}>
-        <Button variant="contained" color="primary" onClick={handleArticleCreation}>Create Article</Button>
-        <Button variant="contained" color="primary" onClick={handleArticleEdition}>Update Article</Button>
-        <Button variant="contained" color="primary" onClick={handleArticleDeletion}>Delete Article</Button>
-        <Button variant="contained" color="primary" onClick={handleArticlesLoad}>Get Articles</Button>
-        <Button variant="contained" color="primary" onClick={handleArticleLoad}>Get Article</Button>
+      <Stack direction="column" spacing={2}>
+        <StyledButton variant="contained" color="primary" onClick={handleArticleCreation}>Create Article</StyledButton>
+        <StyledButton variant="contained" color="primary" onClick={handleArticleEdition}>Update Article</StyledButton>
+        <StyledButton variant="contained" color="primary" onClick={handleArticleDeletion}>Delete Article</StyledButton>
+        <StyledButton variant="contained" color="primary" onClick={handleArticlesLoad}>Get Articles</StyledButton>
+        <StyledButton variant="contained" color="primary" onClick={handleArticleLoad}>Get Article</StyledButton>
+        <StyledButton variant="contained" color="primary" onClick={handleDeleteAllArticles}>Delete all articles</StyledButton>
       </Stack>      
     </StyledContainer>
 
