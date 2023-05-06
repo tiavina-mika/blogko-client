@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './index.css';
+import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material';
+import { blue } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
+import Home from './containers/Home';
 
-function App() {
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: blue[500],
+    },
+    secondary: {
+      main: green[500],
+    },
+  },
+});
+
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <Home />
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
 
