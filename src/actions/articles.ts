@@ -55,10 +55,13 @@ export const deleteArticle = async (id: string): Promise<void> => {
 }
 
 export const getArticles = async (): Promise<Parse.Object[] | undefined> => {
-  console.log('hello');
   try {
     const articles = await new Parse.Query(Article)
       .find();
+
+      
+    const total = await Parse.Cloud.run('numbersSum', { a: 1, b: 9 })
+    console.log('total: ', total);
   
     console.log(' ------ getArticles articles: ', articles);
     return articles
