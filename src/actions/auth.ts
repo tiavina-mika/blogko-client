@@ -1,13 +1,14 @@
 import Parse from 'parse';
 import { ILoginInput, IUserInput } from '../types/user';
+import { setValues } from '../utils/utils';
+
+const SIGNUP_PROPERTIES = new Set(['email', 'password', 'username', 'name']);
 
 export const signUp = async (values: IUserInput): Promise<void> => {
   try {
     const user = new Parse.User();
-    user.set('username', values.email);
-    user.set('email', values.email);
-    user.set('name', values.name);
-    user.set('password', values.password);
+    setValues(user, values, SIGNUP_PROPERTIES)
+
     const newUser = await user.signUp();
     console.log('newUserJson id: ', newUser.toJSON());
 
