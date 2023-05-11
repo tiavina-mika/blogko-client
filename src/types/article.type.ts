@@ -1,4 +1,5 @@
 export interface IArticle extends Parse.Object {
+  objectId: string;
   title: string;
 }
 

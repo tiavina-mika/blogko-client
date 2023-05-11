@@ -5,15 +5,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import { Stack } from '@mui/material';
 
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IArticle } from '../../types/article.type';
-import { getArticles, goToArticleCreation } from '../../actions/articles';
+import { getArticles, goToArticleCreation, goToArticleEdition } from '../../actions/articles';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading';
 
 const Articles = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,13 +41,18 @@ const Articles = () => {
     navigate(goToArticleCreation())
   }
 
-  if (loading) {
-    return (
-      <Box className="flexCenter flex1 stretchSelf" sx={{ height: '100%'}}>
-        <CircularProgress />
-      </Box>
-    )
+  const _goToArticlePreview = () => {
+    navigate(goToArticleCreation())
   }
+
+  const _goToArticleEdition = (id: string) => {
+    navigate(goToArticleEdition(id))
+  }
+
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <Box className="flex1 stretchSelf justifyCenter">
       <TableContainer component={Paper}>
@@ -52,6 +60,7 @@ const Articles = () => {
           <TableHead>
             <TableRow>
               <TableCell>Title</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -62,6 +71,13 @@ const Articles = () => {
               >
                 <TableCell component="th" scope="row">
                   {article.title}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  <Stack direction="row" spacing={2}>
+                    <IconButton onClick={() => _goToArticleEdition(article.objectId)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Stack>
                 </TableCell>
               </TableRow>
             ))}

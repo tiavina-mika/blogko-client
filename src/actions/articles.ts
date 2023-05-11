@@ -75,12 +75,13 @@ export const getArticles = async (toJson = true): Promise<Parse.Object[] | undef
   }
 }
 
-export const getArticle = async (id: string): Promise<Parse.Object | undefined> => {
+export const getArticle = async (id: string, toJson = false): Promise<Parse.Object | undefined> => {
   try {
     const article = await queryArticle(id);
   
     console.log(' ------ getArticle articles: ', article);
-    return article;
+    if(!article) return;
+    return toJson ? (article as any).toJSON(): article;
   } catch (error) {
     console.log('getArticle error: ', error);
   }
