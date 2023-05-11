@@ -3,8 +3,9 @@ import Articles from './Articles';
 import Categories from './Categories';
 import Auth from './Auth';
 import Settings from './Settings';
+import Layout from '../components/layout/Layout';
 
-const StyledContainer = styled(Container)({
+const StyledContainer = styled('div')({
   padding: 12,
   paddingTop: 32,
   display: 'flex',
@@ -13,14 +14,17 @@ const StyledContainer = styled(Container)({
 
 const Home = () => {
   return (
-    <StyledContainer>
-      <Stack spacing={4} direction="row">
-        <Articles />
-        <Categories />
-        <Auth />
-        <Settings />
-      </Stack>
-    </StyledContainer>
+    <Layout>
+      <StyledContainer>
+        <Stack spacing={4} direction="row">
+          <Articles />
+          <Categories />
+          <Auth />
+          <Settings />
+        </Stack>
+      </StyledContainer>      
+    </Layout>
+
   );
 }
 

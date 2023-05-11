@@ -3,7 +3,7 @@ import { cleanDatabase } from '../actions/settings';
 
 
 const StyledButton = styled(Button)({
-  width: 400
+  width: '18vw'
 });
 
 const Settings = () => {

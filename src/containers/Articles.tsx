@@ -12,7 +12,7 @@ const id = 'r6EZDbqIiS';
 
 
 const StyledButton = styled(Button)({
-  width: 400
+  width: '18vw'
 });
 
 const Article = () => {

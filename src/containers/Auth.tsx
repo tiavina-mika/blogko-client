@@ -3,7 +3,7 @@ import { deleteMyAccount, getCurrentUser, login, logout, signUp } from '../actio
 
 
 const StyledButton = styled(Button)({
-  width: 400
+  width: '18vw'
 });
 
 const Auth = () => {
