@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { ReactNode, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -39,10 +39,10 @@ interface Props {
    * You won't need it on your project.
    */
   window?: () => Window;
-  children: ReactNode;
+  // children: ReactNode;
 }
 
-const Layout = ({ window, children}: Props) => {
+const Layout = ({ window }: Props) => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
@@ -133,7 +133,7 @@ const Layout = ({ window, children}: Props) => {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );

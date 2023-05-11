@@ -14,7 +14,7 @@ const StyledContainer = styled('div')({
 
 const Home = () => {
   return (
-    <Layout>
+    // <Layout>
       <StyledContainer>
         <Stack spacing={4} direction="row">
           <Articles />
@@ -23,7 +23,7 @@ const Home = () => {
           <Settings />
         </Stack>
       </StyledContainer>      
-    </Layout>
+    // </Layout>
 
   );
 }

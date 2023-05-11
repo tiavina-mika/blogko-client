@@ -1,4 +1,4 @@
-import { Stack, Button, Box, styled, Typography } from '@mui/material';
+import { Stack, Button, styled, Typography } from '@mui/material';
 import { createArticle, deleteAllArticles, deleteArticle, getArticle, getArticles, updateArticle } from '../../actions/articles';
 
 // const StyledContainer = styled(Box)(({ theme }) => ({
