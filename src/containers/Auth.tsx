@@ -12,6 +12,7 @@ const Auth = () => {
       name: 'zo',
       email: 'user1@gmail.com',
       password: 'user1@gmail.com',
+      username: 'user1@gmail.com'
     }
     await signUp(values)
   }
@@ -42,10 +43,10 @@ const Auth = () => {
         Auth
       </Typography>
       <StyledButton variant="contained" color="info" onClick={handleSignUp}>SignUp</StyledButton>
-      <StyledButton variant="contained" color="secondary" onClick={handleLogin}>Login</StyledButton>
+      <StyledButton variant="contained" color="info" onClick={handleLogin}>Login</StyledButton>
       <StyledButton variant="contained" color="info" onClick={handleLogOut}>Log out</StyledButton>
-      <StyledButton variant="contained" color="secondary" onClick={handleProfile}>Profile</StyledButton>
-      <StyledButton variant="contained" color="secondary" onClick={handleDeleteMyAccount}>Delete my account</StyledButton>
+      <StyledButton variant="contained" color="info" onClick={handleProfile}>Profile</StyledButton>
+      <StyledButton variant="contained" color="info" onClick={handleDeleteMyAccount}>Delete my account</StyledButton>
     </Stack>
   );
 }

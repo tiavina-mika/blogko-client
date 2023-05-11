@@ -10,7 +10,11 @@ export const signUp = async (values: IUserInput): Promise<void> => {
     setValues(user, values, SIGNUP_PROPERTIES)
 
     const newUser = await user.signUp();
-    console.log('newUserJson id: ', newUser.toJSON());
+    console.log('signUp user id: ', newUser.toJSON());
+
+    const roles = await Parse.Cloud.run('getRolesForUser');
+
+    console.log('signUp roles: ', roles.map((role: Parse.Role) => role.toJSON()));
 
     await logout()
   } catch (error) {
