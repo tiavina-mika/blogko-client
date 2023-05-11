@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './containers/home/Home';
 import EditArticle from './containers/article/EditArticle';
 import CreateArticle from './containers/article/CreateArticle';
+import PreviewArticle from './containers/article/PreviewArticle';
 import Articles from './containers/article/Articles';
 import Layout from './components/layout/Layout';
 import { PATH_NAMES } from './utils/constants';
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <Articles />,
+          },
+          {
+            path: PATH_NAMES.articles.root + "/:id",
+            element: <PreviewArticle />,
           },
           {
             path: PATH_NAMES.articles.create,

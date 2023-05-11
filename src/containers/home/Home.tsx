@@ -1,9 +1,8 @@
-import { Stack, styled, Container } from '@mui/material';
+import { Stack, styled } from '@mui/material';
 import Articles from './Articles';
 import Categories from './Categories';
 import Auth from './Auth';
 import Settings from './Settings';
-import Layout from '../../components/layout/Layout';
 
 const StyledContainer = styled('div')({
   padding: 12,

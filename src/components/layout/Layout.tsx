@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,8 +16,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { ReactNode, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+
 import { goToArticles } from '../../actions/articles';
 
 const drawerWidth = 240;

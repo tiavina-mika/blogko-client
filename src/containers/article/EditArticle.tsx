@@ -1,6 +1,6 @@
 import { Stack, Button, Box, Typography, TextField } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { createArticle, getArticle, goToArticles, updateArticle } from '../../actions/articles';
+import { getArticle, goToArticles, updateArticle } from '../../actions/articles';
 import { IArticle, IArticleInput } from '../../types/article.type';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';

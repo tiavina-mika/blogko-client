@@ -10,19 +10,21 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Stack } from '@mui/material';
 
 import { useEffect, useState } from 'react';
 import { IArticle } from '../../types/article.type';
-import { getArticles, goToArticleCreation, goToArticleEdition } from '../../actions/articles';
-import { useNavigate } from 'react-router-dom';
+import { deleteArticle, getArticles, goToArticleCreation, goToArticleEdition, gotoArticle } from '../../actions/articles';
 import Loading from '../../components/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const Articles = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [articles, setArticles] = useState<IArticle[]>([]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const init = async () => {
@@ -41,12 +43,19 @@ const Articles = () => {
     navigate(goToArticleCreation())
   }
 
-  const _goToArticlePreview = () => {
-    navigate(goToArticleCreation())
+  const _goToArticlePreview = (id: string) => {
+    navigate(gotoArticle(id))
   }
 
   const _goToArticleEdition = (id: string) => {
     navigate(goToArticleEdition(id))
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!id) return;
+    await deleteArticle(id);
+    const newArticles = articles.filter((article: IArticle) => article.objectId !== id);
+    setArticles(newArticles);
   }
 
   if (loading) {
@@ -74,8 +83,14 @@ const Articles = () => {
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <Stack direction="row" spacing={2}>
+                    <IconButton onClick={() => _goToArticlePreview(article.objectId)}>
+                      <VisibilityIcon />
+                    </IconButton>
                     <IconButton onClick={() => _goToArticleEdition(article.objectId)}>
                       <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(article.objectId)}>
+                      <DeleteIcon />
                     </IconButton>
                   </Stack>
                 </TableCell>
