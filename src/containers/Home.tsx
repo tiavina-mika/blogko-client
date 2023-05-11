@@ -1,10 +1,10 @@
-import { Stack, Box, styled } from '@mui/material';
+import { Stack, styled, Container } from '@mui/material';
 import Articles from './Articles';
 import Categories from './Categories';
 import Auth from './Auth';
 import Settings from './Settings';
 
-const StyledContainer = styled(Box)({
+const StyledContainer = styled(Container)({
   padding: 12,
   paddingTop: 32,
   display: 'flex',
@@ -14,7 +14,7 @@ const StyledContainer = styled(Box)({
 const Home = () => {
   return (
     <StyledContainer>
-      <Stack spacing={4}>
+      <Stack spacing={4} direction="row">
         <Articles />
         <Categories />
         <Auth />
