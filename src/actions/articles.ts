@@ -1,6 +1,7 @@
-import Parse from 'parse';
+import Parse, { Attributes } from 'parse';
 
-import { IArticleInput } from "../types/article.type";
+import { IArticle, IArticleInput } from "../types/article.type";
+import { PATH_NAMES } from '../utils/constants';
 
 const Article = Parse.Object.extend("Article");
 
@@ -56,18 +57,18 @@ export const deleteArticle = async (id: string): Promise<void> => {
   }
 }
 
-export const getArticles = async (): Promise<Parse.Object[] | undefined> => {
+export const getArticles = async (toJson = true): Promise<Parse.Object[] | undefined> => {
   try {
     const articles = await new Parse.Query(Article)
       .include(['user', 'category'])
       .find();
-
-      
-    const total = await Parse.Cloud.run('numbersSum', { a: 1, b: 9 })
-    console.log('total: ', total);
   
     // console.log(' ------ getArticles articles: ', articles.map((article) => article.toJSON()));
-    console.log(articles[0].toJSON().category.name);
+    // console.log(articles[0].toJSON().category.name);
+    if (toJson) {
+      return articles.map((article: any) => article.toJSON())
+    }
+
     return articles
   } catch (error) {
     console.log('getArticles error: ', error);
@@ -98,3 +99,7 @@ export const deleteAllArticles = async (): Promise<void> => {
     console.log('getArticle error: ', error);
   }
 }
+
+export const goToArticles = () => '/' + PATH_NAMES.articles.root;
+export const goToArticleCreation = () => `/${PATH_NAMES.articles.root}/${PATH_NAMES.articles.create}`;
+export const goToArticleEdition = (id: string) => `/${PATH_NAMES.articles.root}/${PATH_NAMES.articles.edit}/${id}`;

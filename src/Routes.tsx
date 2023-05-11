@@ -6,6 +6,7 @@ import EditArticle from './containers/article/EditArticle';
 import CreateArticle from './containers/article/CreateArticle';
 import Articles from './containers/article/Articles';
 import Layout from './components/layout/Layout';
+import { PATH_NAMES } from './utils/constants';
 
 const router = createBrowserRouter([
   {
@@ -17,18 +18,18 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/articles",
+        path: '/' + PATH_NAMES.articles.root,
         children: [
           {
             path: "",
             element: <Articles />,
           },
           {
-            path: "ajouter",
+            path: PATH_NAMES.articles.create,
             element: <CreateArticle />,
           },
           {
-            path: "editer/:id",
+            path: PATH_NAMES.articles.edit + "/:id",
             element: <EditArticle />,
           },
         ],

@@ -16,8 +16,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { ReactNode, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { goToArticles } from '../../actions/articles';
 
 const drawerWidth = 240;
+const appBarHeight = 64;
 
 interface ISideBarItem {
   url: string;
@@ -29,7 +31,7 @@ const sideBarItems: ISideBarItem[] = [
     label: 'Home'
   },
   {
-    url: '/articles',
+    url: goToArticles(),
     label: 'Articles'
   },
 ]
@@ -77,6 +79,7 @@ const Layout = ({ window }: Props) => {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          height: appBarHeight
         }}
       >
         <Toolbar>
@@ -130,10 +133,12 @@ const Layout = ({ window }: Props) => {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, p: 3, minHeight: '100vh', width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Outlet />
+        <Box sx={{ minHeight: `calc(100% - ${appBarHeight}px)`}} className="flexColumn">
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );
