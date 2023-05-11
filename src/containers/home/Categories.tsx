@@ -1,5 +1,5 @@
 import { Stack, Button, styled, Typography } from '@mui/material';
-import { createCategory, deleteAllCategories, deleteCategory, getCategory, getCategories, updateCategory } from '../actions/categories';
+import { createCategory, deleteAllCategories, deleteCategory, getCategory, getCategories, updateCategory } from '../../actions/categories';
 
 
 const id = 'r6EZDbqIiS';

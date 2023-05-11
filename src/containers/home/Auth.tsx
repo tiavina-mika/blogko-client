@@ -1,5 +1,5 @@
 import { Stack, Button, styled, Typography } from '@mui/material';
-import { deleteMyAccount, getCurrentUser, login, logout, signUp } from '../actions/auth';
+import { deleteMyAccount, getCurrentUser, login, logout, signUp } from '../../actions/auth';
 
 
 const StyledButton = styled(Button)({

@@ -15,9 +15,24 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { ReactNode, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
+interface ISideBarItem {
+  url: string;
+  label: string;
+}
+const sideBarItems: ISideBarItem[] = [
+  {
+    url: '/',
+    label: 'Home'
+  },
+  {
+    url: '/articles',
+    label: 'Articles'
+  },
+]
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.
@@ -28,6 +43,7 @@ interface Props {
 }
 
 const Layout = ({ window, children}: Props) => {
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const handleDrawerToggle = () => {
@@ -38,9 +54,9 @@ const Layout = ({ window, children}: Props) => {
     <div>
       <Toolbar />
       <Divider />
-      {[{url: '/', label: 'Home'}, {url: '/', label: 'Article'}].map((path, index) => (
+      {sideBarItems.map((path:ISideBarItem, index: number) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate(path.url)}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>

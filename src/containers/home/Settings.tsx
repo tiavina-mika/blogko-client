@@ -1,5 +1,5 @@
 import { Stack, Button, styled, Typography } from '@mui/material';
-import { cleanDatabase } from '../actions/settings';
+import { cleanDatabase } from '../../actions/settings';
 
 
 const StyledButton = styled(Button)({
