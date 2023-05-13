@@ -1,24 +1,11 @@
-import { Stack, Button, Box, Typography, TextField } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { Stack, Box, Typography } from '@mui/material';
 import { createArticle } from '../../actions/articles';
-import { IArticleInput } from '../../types/article.type';
+import ArticleForm from './ArticleForm';
 
 const CreateArticle = () => {
-  const [values, setValues] = useState<IArticleInput>({
-    title: '',
-  })
-
-  const handleSave = async (event: any) => {
-    event.preventDefault();
+  const handleSave = async (values: any) => {
     await createArticle(values)
   }
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValues((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }))
-  };
 
   return (
     <Box className="flexCenter">
@@ -27,14 +14,7 @@ const CreateArticle = () => {
           Create article
         </Typography>
         <div>
-          <form onSubmit={handleSave}>
-            <Stack spacing={2}>
-              <TextField name="title" label="Title" onChange={handleChange} value={values?.title} />
-              <Button type="submit" variant="contained">
-                Save
-              </Button>              
-            </Stack>
-          </form>
+          <ArticleForm onSave={handleSave} />
         </div>
       </Stack>
     </Box>

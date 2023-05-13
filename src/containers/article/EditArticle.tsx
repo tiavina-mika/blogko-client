@@ -4,6 +4,7 @@ import { getArticle, goToArticles, updateArticle } from '../../actions/articles'
 import { IArticle, IArticleInput } from '../../types/article.type';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
+import ArticleForm from './ArticleForm';
 
 const EditArticle = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -12,9 +13,9 @@ const EditArticle = () => {
   const navigate = useNavigate();
 
   const [article, setArticle] = useState<IArticle | null>(null);
-  const [values, setValues] = useState<IArticleInput>({
-    title: '',
-  });
+  // const [values, setValues] = useState<IArticleInput>({
+  //   title: '',
+  // });
 
   useEffect(() => {
     const init = async () => {
@@ -25,26 +26,18 @@ const EditArticle = () => {
 
       if (!_article) return;
       setArticle(_article as IArticle)
-      setValues({title: (_article as IArticle).title })
+      // setValues({title: (_article as IArticle).title })
       setLoading(false)
     };
 
     init();
   }, [params])
 
-  const handleSave = async (event: any) => {
-    event.preventDefault();
+  const handleSave = async (values: any) => {
     if (!params.id) return;
     await updateArticle(params.id,values);
     navigate(goToArticles());
   }
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValues((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }))
-  };
 
   if (loading) {
     return <Loading />
@@ -63,14 +56,7 @@ const EditArticle = () => {
           Edit article {article.title}
         </Typography>
         <div>
-          <form onSubmit={handleSave}>
-            <Stack spacing={2}>
-              <TextField name="title" label="Title" onChange={handleChange} value={values?.title} />
-              <Button type="submit" variant="contained">
-                Save
-              </Button>              
-            </Stack>
-          </form>
+          <ArticleForm onSave={handleSave} article={article} />
         </div>
       </Stack>
     </Box>
