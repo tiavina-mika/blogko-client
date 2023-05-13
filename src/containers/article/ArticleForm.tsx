@@ -1,9 +1,10 @@
-import { Stack, Button, TextField } from '@mui/material';
+import { Stack, Button } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { IArticle, IArticleInput } from '../../types/article.type';
 import { articleSchema } from '../../utils/vaildations/article.validations';
-import { useForm, Controller, SubmitHandler} from 'react-hook-form';
+import { useForm, FormProvider, SubmitHandler} from 'react-hook-form';
+import TextField from '../../components/form/TextField';
 
 const getInitialValues = (article: IArticle | null | undefined) => {
   // edition
@@ -27,10 +28,12 @@ const ArticleForm = ({ onSave, article }: Props) => {
   //   title: '',
   // })
 
-  const { handleSubmit, control, formState: { errors } } = useForm({
+  const form = useForm({
     resolver: zodResolver(articleSchema),
     defaultValues: getInitialValues(article)
   });
+
+  const { handleSubmit } = form;
 
   // useEffect(() => {
   //   if (!article) return;
@@ -64,20 +67,25 @@ const ArticleForm = ({ onSave, article }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)}>
-      <Stack spacing={2}>
-        {/* <TextField name="title" label="Title" onChange={handleChange} value={values?.title} /> */}
-        <Controller
-          name="title"
-          control={control}
-          render={({ field }: any) => <TextField {...field} label="Title" />}
-        />
-       {errors.title && <p>{(errors as any).title?.message}</p>}
-        <Button type="submit" variant="contained">
-          Save
-        </Button>              
-      </Stack>
-    </form>
+    <FormProvider {...form}>
+    {/* <FormProvider form={form}> */}
+      <form onSubmit={handleSubmit(onSubmit as any)}>
+        <Stack spacing={2}>
+          {/* <TextField name="title" label="Title" onChange={handleChange} value={values?.title} /> */}
+          {/* <Controller
+            name="title"
+            control={control}
+            render={({ field }: any) => <TextField {...field} label="Title" />}
+          /> */}
+          <TextField name="title" label="Title" />
+          <TextField name="description" label="description" />
+          <Button type="submit" variant="contained">
+            Save
+          </Button>              
+        </Stack>
+      </form>
+    </FormProvider>
+
   )
 }
 
