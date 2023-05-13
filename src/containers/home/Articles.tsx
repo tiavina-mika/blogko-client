@@ -20,14 +20,14 @@ const Article = () => {
     const values = {
       title: 'Article 1',
     }
-    await createArticle(values)
+    await createArticle(values as any)
   }
 
   const handleArticleEdition = async () => {
     const values = {
       title: 'Article 1 mod',
     }
-    await updateArticle(id, values)
+    await updateArticle(id, values as any)
   }
 
   const handleArticleDeletion = async () => {

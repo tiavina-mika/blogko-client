@@ -23,7 +23,7 @@ export const createCategory = async (values: ICategoryInput) => {
 
     const newCategoryJson = newCategory.toJSON()
 
-    const article = await createArticle({ title: 'Article 01' });
+    const article = await createArticle({ title: 'Article 01' } as any);
 
     article?.set('category', newCategory)
 
