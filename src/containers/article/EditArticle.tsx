@@ -33,7 +33,7 @@ const EditArticle = () => {
     init();
   }, [params])
 
-  const handleSave = async (values: any) => {
+  const handleSave = async (values: IArticleInput) => {
     if (!params.id) return;
     await updateArticle(params.id,values);
     navigate(goToArticles());

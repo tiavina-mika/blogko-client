@@ -6,7 +6,7 @@ import { IArticle, IArticleInput } from '../../types/article.type';
 import { articleSchema } from '../../utils/vaildations/article.validations';
 
 type Props = {
-  onSave: (values: any) => void;
+  onSave: (values: IArticleInput) => void;
   article?: IArticle;
 }
 const ArticleForm = ({ onSave, article }: Props) => {
