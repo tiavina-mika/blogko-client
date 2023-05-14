@@ -78,7 +78,7 @@ const ArticleForm = ({ onSave, article }: Props) => {
             render={({ field }: any) => <TextField {...field} label="Title" />}
           /> */}
           <TextField name="title" label="Title" />
-          <TextField name="description" label="description" />
+          {/* <TextField name="description" label="description" /> */}
           <Button type="submit" variant="contained">
             Save
           </Button>              
