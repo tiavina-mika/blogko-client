@@ -19,10 +19,6 @@ import { deleteArticle, goToArticleCreation, goToArticleEdition, gotoArticle, on
 import Loading from '../../components/Loading';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 
-// type Data = {
-//   articles: IArticle[]| Parse.Object[] | undefined
-// }
-
 const Articles = () => {
   const [loading, setLoading] = useState<boolean>(false);
   // const [articles, setArticles] = useState<IArticle[]>([]);
