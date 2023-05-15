@@ -14,29 +14,29 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Stack } from '@mui/material';
 
-import { useState } from 'react';
-import { deleteArticle, goToArticleCreation, goToArticleEdition, gotoArticle, onEnterArticles } from '../../actions/articles';
+import { useEffect, useState } from 'react';
+import { deleteArticle, getArticles, goToArticleCreation, goToArticleEdition, gotoArticle } from '../../actions/articles';
 import Loading from '../../components/Loading';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { IArticle } from '../../types/article.type';
 
 const Articles = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  // const [articles, setArticles] = useState<IArticle[]>([]);
-  const { articles } = useLoaderData() as Awaited<ReturnType<typeof onEnterArticles>>
+  const [articles, setArticles] = useState<IArticle[]>([]);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const init = async () => {
-  //     setLoading(true)
-  //     const _articles = await getArticles();
+  useEffect(() => {
+    const init = async () => {
+      setLoading(true)
+      const _articles = await getArticles();
 
-  //     if (!_articles) return;
-  //     setArticles(_articles as IArticle[])
-  //     setLoading(false)
-  //   }
+      if (!_articles) return;
+      setArticles(_articles as IArticle[])
+      setLoading(false)
+    }
 
-  //   init()
-  // }, []);
+    init()
+  }, []);
 
   const _goToArticleCreation = () => {
     navigate(goToArticleCreation())
@@ -53,8 +53,8 @@ const Articles = () => {
   const handleDelete = async (id: string) => {
     if (!id) return;
     await deleteArticle(id);
-    // const newArticles = articles.filter((article: IArticle) => article.objectId !== id);
-    // setArticles(newArticles);
+    const newArticles = articles.filter((article: IArticle) => article.objectId !== id);
+    setArticles(newArticles);
   }
 
   if (loading) {

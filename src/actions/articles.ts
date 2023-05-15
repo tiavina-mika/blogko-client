@@ -100,15 +100,6 @@ export const deleteAllArticles = async (): Promise<void> => {
   }
 }
 
-interface IOnEnterArticles {
-  articles: IArticle[]| Attributes[] | undefined
-}
-export const onEnterArticles = async (): Promise<IOnEnterArticles> => {
-  const articles = await getArticles();
-
-  return { articles }
-}
-
 export const goToArticles = () => '/' + PATH_NAMES.articles.root;
 export const gotoArticle = (id: string) => `/${PATH_NAMES.articles.root}/${id}`;
 export const goToArticleCreation = () => `/${PATH_NAMES.articles.root}/${PATH_NAMES.articles.create}`;

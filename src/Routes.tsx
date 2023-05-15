@@ -8,7 +8,6 @@ import PreviewArticle from './containers/article/PreviewArticle';
 import Articles from './containers/article/Articles';
 import Layout from './components/layout/Layout';
 import { PATH_NAMES } from './utils/constants';
-import { onEnterArticles } from './actions/articles';
 
 const router = createBrowserRouter([
   {
@@ -25,7 +24,6 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <Articles />,
-            loader: onEnterArticles
           },
           {
             path: PATH_NAMES.articles.root + "/:id",
