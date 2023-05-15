@@ -1,8 +1,9 @@
 import { z } from "zod";
 
 import { articleSchema } from "../utils/vaildations/article.validations";
+import { Attributes } from "parse";
 
-export interface IArticle extends Parse.Object {
+export interface IArticle extends Attributes {
   objectId: string;
   title: string;
 }

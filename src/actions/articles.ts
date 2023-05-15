@@ -1,6 +1,6 @@
-import Parse from 'parse';
+import Parse, { Attributes } from 'parse';
 
-import { IArticleInput } from "../types/article.type";
+import { IArticle, IArticleInput } from "../types/article.type";
 import { PATH_NAMES } from '../utils/constants';
 
 const Article = Parse.Object.extend("Article");
@@ -57,7 +57,7 @@ export const deleteArticle = async (id: string): Promise<void> => {
   }
 }
 
-export const getArticles = async (toJson = true): Promise<Parse.Object[] | undefined> => {
+export const getArticles = async (toJson = true): Promise<Parse.Object[] | IArticle[] | undefined> => {
   try {
     const articles = await new Parse.Query(Article)
       .include(['user', 'category'])
@@ -74,7 +74,7 @@ export const getArticles = async (toJson = true): Promise<Parse.Object[] | undef
   }
 }
 
-export const getArticle = async (id: string, toJson = false): Promise<Parse.Object | undefined> => {
+export const getArticle = async (id: string, toJson = false): Promise<IArticle | Parse.Object | undefined> => {
   try {
     const article = await queryArticle(id);
   
@@ -98,6 +98,15 @@ export const deleteAllArticles = async (): Promise<void> => {
   } catch (error) {
     console.log('getArticle error: ', error);
   }
+}
+
+interface IOnEnterArticles {
+  articles: IArticle[]| Attributes[] | undefined
+}
+export const onEnterArticles = async (): Promise<IOnEnterArticles> => {
+  const articles = await getArticles();
+
+  return { articles }
 }
 
 export const goToArticles = () => '/' + PATH_NAMES.articles.root;
