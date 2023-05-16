@@ -17,17 +17,24 @@ const queryArticle = async (id: string): Promise<Parse.Object | undefined>  => {
 
   return article;
 }
-export const createArticle = async (values: IArticleInput): Promise<Parse.Object | undefined> => {
+export const createArticle = async (values: IArticleInput): Promise<IArticle | undefined> => {
   try {
     const article = new Article();
     article.set('title', values.title);
     const newArticle = await article.save();
 
-    console.log('newArticleJson id: ', newArticle.toJSON());
-    return newArticle
+    // if (toJson) {
+    //   return newArticle.toJSON()
+    // }
+
+    // console.log('newArticleJson id: ', newArticle.toJSON());
+    // return newArticle
+    return newArticle.toJSON()
+
 
   } catch (error) {
     console.log(' ------ createArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
@@ -43,6 +50,7 @@ export const updateArticle = async (id: string, values: IArticleInput): Promise<
     return newArticle
   } catch (error) {
     console.log('updateArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
@@ -54,14 +62,15 @@ export const deleteArticle = async (id: string): Promise<void> => {
     await article.destroy();
   } catch (error) {
     console.log('deleteArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
-export const getArticles = async (toJson = true): Promise<Parse.Object[] | IArticle[] | undefined> => {
+export const getArticles = async (toJson = true): Promise<Parse.Object[] | IArticle[]> => {
   try {
-    const articles = await new Parse.Query(Article)
-      .include(['user', 'category'])
-      .find();
+    const articles = (await new Parse.Query(Article)
+    .include(['user', 'category'])
+    .find()) || [];
   
     // console.log(articles[0].toJSON().category.name);
     if (toJson) {
@@ -71,6 +80,7 @@ export const getArticles = async (toJson = true): Promise<Parse.Object[] | IArti
     return articles
   } catch (error) {
     console.log('getArticles error: ', error);
+    return Promise.reject(error)
   }
 }
 
@@ -83,6 +93,7 @@ export const getArticle = async (id: string, toJson = false): Promise<IArticle |
     return toJson ? (article as any).toJSON(): article;
   } catch (error) {
     console.log('getArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
@@ -97,6 +108,7 @@ export const deleteAllArticles = async (): Promise<void> => {
     console.log(' ------ deleteAllArticles: ');
   } catch (error) {
     console.log('getArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 

@@ -31,6 +31,7 @@ const Articles = () => {
     },
     retry: 1
   });
+  console.log('error: ', error);
 
   // useEffect(() => {
   //   const init = async () => {
