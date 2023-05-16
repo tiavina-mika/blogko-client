@@ -46,12 +46,13 @@ export const updateArticle = async (id: string, values: IArticleInput): Promise<
   }
 }
 
-export const deleteArticle = async (id: string): Promise<void> => {
+export const deleteArticle = async (id: string): Promise<string | undefined> => {
   try {
     const article = await queryArticle(id);
     if (!article) return;
   
     await article.destroy();
+    return id;
   } catch (error) {
     console.log('deleteArticle error: ', error);
     return Promise.reject(error);

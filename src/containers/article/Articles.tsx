@@ -17,18 +17,34 @@ import { Stack } from '@mui/material';
 import { deleteArticle, getArticles, goToArticleCreation, goToArticleEdition, gotoArticle } from '../../actions/articles';
 import Loading from '../../components/Loading';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IArticle } from '../../types/article.type';
 
 const Articles = () => {
   // const [loading, setLoading] = useState<boolean>(false);
   // const [articles, setArticles] = useState<IArticle[]>([]);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { isLoading, data: articles, error } = useQuery(['articles'], () => getArticles(), {
     retry: 1
   });
   console.log('error: ', error);
+
+  const {
+    mutate: _deleteArticle,
+    // error,
+    // isLoading: isUpdateArticleLoading,
+  // } = useMutation(createArticle, {
+  } = useMutation<string | undefined, unknown, string>(deleteArticle, {
+    onSuccess: (deletedArticleId: string | undefined) => {
+      if (!deletedArticleId) return;
+      queryClient.setQueryData(
+        ['articles'],
+        (prev: IArticle[] | undefined = []): IArticle[] => prev.filter((article) => article.objectId !== deletedArticleId)
+      );
+    },
+  })
 
   // useEffect(() => {
   //   const init = async () => {
@@ -57,7 +73,7 @@ const Articles = () => {
 
   const handleDelete = async (id: string) => {
     if (!id) return;
-    await deleteArticle(id);
+    await _deleteArticle(id);
     // const newArticles = articles.filter((article: IArticle) => article.objectId !== id);
     // setArticles(newArticles);
   }

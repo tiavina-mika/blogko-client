@@ -14,7 +14,7 @@ type InputProps = {
 const EditArticle = () => {
   const params = useParams<IGetRouteParams>();
   const navigate = useNavigate();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   // const [article, setArticle] = useState<IArticle | null>(null);
   // const [values, setValues] = useState<IArticleInput>({
