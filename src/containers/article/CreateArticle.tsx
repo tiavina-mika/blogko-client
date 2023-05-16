@@ -4,12 +4,12 @@ import ArticleForm from './ArticleForm';
 import { IArticle, IArticleInput } from '../../types/article.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Loading from '../../components/Loading';
-import { Attributes } from 'react';
 
 const CreateArticle = () => {
   const queryClient = useQueryClient()
+
+  // just to show that the list is updated after creating a new article
   const {  data: articles } = useQuery(['articles'], () => getArticles());
-  console.log('articles 1: ', articles);
 
   const {
     mutate: _createArticle,
@@ -17,7 +17,7 @@ const CreateArticle = () => {
     error,
     isLoading,
   // } = useMutation(createArticle, {
-  } = useMutation(createArticle, {
+  } = useMutation<IArticle | undefined, unknown, IArticleInput>((values) => createArticle(values, true), {
     onSuccess: (newArticle: IArticle | undefined) => {
       if (!newArticle) return;
       queryClient.setQueryData(
@@ -28,7 +28,7 @@ const CreateArticle = () => {
   })
 
   const handleSave = async (values: IArticleInput) => {
-    await _createArticle(values as IArticleInput)
+    await _createArticle(values)
   }
 
   return (

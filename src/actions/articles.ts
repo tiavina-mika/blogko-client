@@ -17,15 +17,15 @@ const queryArticle = async (id: string): Promise<Parse.Object | undefined>  => {
 
   return article;
 }
-export const createArticle = async (values: IArticleInput): Promise<IArticle | undefined> => {
+export const createArticle = async (values: IArticleInput, toJson = false): Promise<IArticle | undefined> => {
   try {
     const article = new Article();
     article.set('title', values.title);
     const newArticle = await article.save();
 
-    // if (toJson) {
-    //   return newArticle.toJSON()
-    // }
+    if (toJson) {
+      return newArticle.toJSON()
+    }
 
     // console.log('newArticleJson id: ', newArticle.toJSON());
     // return newArticle
