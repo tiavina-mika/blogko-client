@@ -14,29 +14,36 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Stack } from '@mui/material';
 
-import { useEffect, useState } from 'react';
 import { deleteArticle, getArticles, goToArticleCreation, goToArticleEdition, gotoArticle } from '../../actions/articles';
 import Loading from '../../components/Loading';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { IArticle } from '../../types/article.type';
 
 const Articles = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [articles, setArticles] = useState<IArticle[]>([]);
+  // const [loading, setLoading] = useState<boolean>(false);
+  // const [articles, setArticles] = useState<IArticle[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const init = async () => {
-      setLoading(true)
-      const _articles = await getArticles();
+  const { isLoading, data: articles, error } = useQuery(['articles'], () => getArticles(), {
+    onError: (err) => {
+      console.log('onError: ', err);
+    },
+    retry: 1
+  });
 
-      if (!_articles) return;
-      setArticles(_articles as IArticle[])
-      setLoading(false)
-    }
+  // useEffect(() => {
+  //   const init = async () => {
+  //     setLoading(true)
+  //     const _articles = await getArticles();
 
-    init()
-  }, []);
+  //     if (!_articles) return;
+  //     setArticles(_articles as IArticle[])
+  //     setLoading(false)
+  //   }
+
+  //   init()
+  // }, []);
 
   const _goToArticleCreation = () => {
     navigate(goToArticleCreation())
@@ -53,11 +60,11 @@ const Articles = () => {
   const handleDelete = async (id: string) => {
     if (!id) return;
     await deleteArticle(id);
-    const newArticles = articles.filter((article: IArticle) => article.objectId !== id);
-    setArticles(newArticles);
+    // const newArticles = articles.filter((article: IArticle) => article.objectId !== id);
+    // setArticles(newArticles);
   }
 
-  if (loading) {
+  if (isLoading) {
     return <Loading />
   }
 
@@ -72,7 +79,7 @@ const Articles = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {articles?.map((article, index: number) => (
+            {(articles as IArticle[])?.map((article, index: number) => (
               <TableRow
                 key={article.title + index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
