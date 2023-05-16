@@ -16,7 +16,7 @@ import { Stack } from '@mui/material';
 
 import { deleteArticle, getArticles, goToArticleCreation, goToArticleEdition, gotoArticle } from '../../actions/articles';
 import Loading from '../../components/Loading';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate, useOutletContext } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IArticle } from '../../types/article.type';
 
@@ -25,6 +25,9 @@ const Articles = () => {
   // const [articles, setArticles] = useState<IArticle[]>([]);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const context = useOutletContext();
+  console.log('context: ', context);
 
   const { isLoading, data: articles, error } = useQuery(['articles'], () => getArticles(), {
     retry: 1
@@ -64,7 +67,8 @@ const Articles = () => {
   }
 
   const _goToArticlePreview = (id: string) => {
-    navigate(gotoArticle(id))
+    console.log('id: ', id);
+    return redirect('/')
   }
 
   const _goToArticleEdition = (id: string) => {

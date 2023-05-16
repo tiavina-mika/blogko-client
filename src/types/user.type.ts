@@ -1,4 +1,5 @@
 export interface IUser extends Parse.User {
+  objectId: string;
   email: string;
   password: string;
   name: string;

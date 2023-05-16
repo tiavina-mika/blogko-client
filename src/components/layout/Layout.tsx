@@ -19,6 +19,8 @@ import Typography from '@mui/material/Typography';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { goToArticles } from '../../actions/articles';
+import { getCurrentUser } from '../../actions/auth';
+import { useQuery } from '@tanstack/react-query';
 
 const drawerWidth = 240;
 const appBarHeight = 64;
@@ -49,6 +51,10 @@ interface Props {
 const Layout = ({ window }: Props) => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+
+  const {  data: currentUser } = useQuery(['currentUser'], () => getCurrentUser(), {
+    retry: 1
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -139,7 +145,7 @@ const Layout = ({ window }: Props) => {
       >
         <Toolbar />
         <Box sx={{ minHeight: `calc(100% - ${appBarHeight}px)`}} className="flexColumn">
-          <Outlet />
+          <Outlet context={{ name: 'Tiks', isConnected: true, user: currentUser }} />
         </Box>
       </Box>
     </Box>

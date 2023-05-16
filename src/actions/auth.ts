@@ -1,5 +1,5 @@
 import Parse from 'parse';
-import { ILoginInput, IUserInput } from '../types/user';
+import { ILoginInput, IUserInput } from '../types/user.type';
 import { setValues } from '../utils/utils';
 
 const SIGNUP_PROPERTIES = new Set(['email', 'password', 'username', 'name']);
@@ -43,12 +43,17 @@ export const login = async (values: ILoginInput): Promise<Parse.User | undefined
   }
 }
 
-export const getCurrentUser = async (): Promise<Parse.User | null | undefined> => {
+// TODO: change to IUser later
+export const getCurrentUser = async (): Promise<Record<string, any> | null | undefined> => {
   try {
-    const user = await Parse.User.currentAsync()
-    console.log('current user: ', user?.toJSON());
+    const user = await Parse.User.currentAsync();
 
-    return user;
+    if (!user) {
+      throw new Error('No user found');
+    }
+    // console.log('current user: ', user?.toJSON());
+
+    return user.toJSON();
   } catch (error) {
     console.log(' ------ getCurrentUser error: ', error);
   }
