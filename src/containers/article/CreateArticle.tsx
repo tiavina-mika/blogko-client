@@ -1,23 +1,20 @@
 import { Stack, Box, Typography } from '@mui/material';
-import { createArticle, getArticles } from '../../actions/articles';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createArticle } from '../../actions/articles';
 import ArticleForm from './ArticleForm';
 import { IArticle, IArticleInput } from '../../types/article.type';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Loading from '../../components/Loading';
 
 const CreateArticle = () => {
   const queryClient = useQueryClient()
 
   // just to show that the list is updated after creating a new article
-  const {  data: articles } = useQuery(['articles'], () => getArticles());
+  // const {  data: articles } = useQuery(['articles'], () => getArticles());
 
   const {
     mutate: _createArticle,
-    isError,
-    error,
     isLoading,
-  // } = useMutation(createArticle, {
-  } = useMutation<IArticle | undefined, unknown, IArticleInput>((values) => createArticle(values, true), {
+  } = useMutation<IArticle | undefined, Error, IArticleInput>(createArticle, {
     onSuccess: (newArticle: IArticle | undefined) => {
       if (!newArticle) return;
       queryClient.setQueryData(

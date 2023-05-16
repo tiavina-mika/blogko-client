@@ -26,9 +26,6 @@ const Articles = () => {
   const navigate = useNavigate();
 
   const { isLoading, data: articles, error } = useQuery(['articles'], () => getArticles(), {
-    onError: (err) => {
-      console.log('onError: ', err);
-    },
     retry: 1
   });
   console.log('error: ', error);
