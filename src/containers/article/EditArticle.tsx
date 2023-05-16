@@ -39,9 +39,9 @@ const EditArticle = () => {
           const newArticles = [];
           for (const article of prev) {
             if (article.objectId === newArticle.objectId) {
-              newArticles.unshift(newArticle)
+              newArticles.unshift(newArticle);
             } else {
-              newArticles.push(article)
+              newArticles.push(article);
             }
           }
           return newArticles;

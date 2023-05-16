@@ -6,7 +6,7 @@ import { IArticle, IArticleInput } from '../../types/article.type';
 import Loading from '../../components/Loading';
 
 const CreateArticle = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   // just to show that the list is updated after creating a new article
   // const {  data: articles } = useQuery(['articles'], () => getArticles());
@@ -25,7 +25,7 @@ const CreateArticle = () => {
   })
 
   const handleSave = async (values: IArticleInput) => {
-    await _createArticle(values)
+    await _createArticle(values);
   }
 
   return (
