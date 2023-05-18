@@ -4,4 +4,7 @@ export const PATH_NAMES = {
     create: 'create',
     edit: 'edit',
   },
+  auth: {
+    login: 'login'
+  }
 }

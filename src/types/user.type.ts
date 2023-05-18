@@ -1,4 +1,6 @@
-export interface IUser extends Parse.User {
+import { Attributes } from "parse";
+
+export interface IUser extends Attributes {
   objectId: string;
   email: string;
   password: string;

@@ -16,7 +16,7 @@ import { Stack } from '@mui/material';
 
 import { deleteArticle, getArticles, goToArticleCreation, goToArticleEdition, gotoArticle } from '../../actions/articles';
 import Loading from '../../components/Loading';
-import { redirect, useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IArticle } from '../../types/article.type';
 
@@ -67,8 +67,8 @@ const Articles = () => {
   }
 
   const _goToArticlePreview = (id: string) => {
-    console.log('id: ', id);
-    return redirect('/')
+    navigate(gotoArticle(id))
+
   }
 
   const _goToArticleEdition = (id: string) => {
