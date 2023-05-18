@@ -56,16 +56,16 @@ export const login = async (values: ILoginInput): Promise<void> => {
 }
 
 // TODO: change to IUser later
-export const getCurrentUser = async (): Promise<Record<string, any> | null | undefined> => {
+export const getCurrentUser = async (): Promise<IUser | null | undefined> => {
   try {
     const user = await Parse.User.currentAsync();
 
     if (!user) {
       throw new Error('No user found');
     }
-    // console.log('current user: ', user?.toJSON());
+    console.log('current user: ', user?.toJSON());
 
-    return user.toJSON();
+    return user.toJSON() as unknown as IUser;
   } catch (error) {
     console.log(' ------ getCurrentUser error: ', error);
     return Promise.reject(error);

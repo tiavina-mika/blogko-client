@@ -9,6 +9,8 @@ import Articles from './containers/article/Articles';
 import Layout from './components/layout/Layout';
 import { PATH_NAMES } from './utils/constants';
 import Login from './containers/auth/login/Login';
+import DashboardLayout from './components/layout/AuthLayout';
+import AuthLayout from './components/layout/AuthLayout';
 
 const router = createBrowserRouter([
   {
@@ -45,8 +47,14 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "/" + PATH_NAMES.auth.login,
-    element: <Login />,
+    path: "/",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: PATH_NAMES.auth.login,
+        element: <Login />,
+      }
+    ]
   }
 
 ]);

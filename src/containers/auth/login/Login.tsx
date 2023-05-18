@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { TextField } from '@mui/material';
+import { Stack, TextField, Typography } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -34,27 +34,32 @@ const Login = () => {
 
   return (
     <Box className="flex1 stretchSelf justifyCenter">
-      <Form
-        form={form}
-        onSubmit={handleSubmit(onSubmitHandler)}
-        loading={isLoading}
-        primaryButtonText="Login"
-      >
-        <TextField
-          name="email"
-          placeholder="Email"
-          type="email"
-          fullWidth
-          required
-        />
-        <TextField
-          name="password"
-          placeholder="Password"
-          type="password"
-          fullWidth
-          required
-        />
-      </Form>
+      <Stack spacing={2}>
+        <Typography variant="h5">
+          Login
+        </Typography>
+        <Form
+          form={form}
+          onSubmit={handleSubmit(onSubmitHandler)}
+          loading={isLoading}
+          primaryButtonText="Login"
+        >
+          <TextField
+            name="email"
+            placeholder="Email"
+            type="email"
+            fullWidth
+            required
+          />
+          <TextField
+            name="password"
+            placeholder="Password"
+            type="password"
+            fullWidth
+            required
+          />
+        </Form>
+      </Stack>
     </Box>
   )
 }
