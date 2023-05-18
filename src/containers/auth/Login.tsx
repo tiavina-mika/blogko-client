@@ -3,12 +3,14 @@ import { Stack, TextField, Typography } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-
-import { goToLogin, login } from '../../../actions/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LoginInput } from '../../../types/auth.type';
-import { loginSchema } from '../../../utils/vaildations/auth.validation';
-import Form from '../../../components/form/Form';
+
+import { goToLogin, login } from '../../actions/auth';
+import { LoginInput } from '../../types/auth.type';
+import { loginSchema } from '../../utils/vaildations/auth.validation';
+import Form from '../../components/form/Form';
+import AuthLink from './AuthLink';
+import { PATH_NAMES } from '../../utils/constants';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -59,6 +61,9 @@ const Login = () => {
             required
           />
         </Form>
+        <Box>
+          <AuthLink label="Not have an account?" text="Sign up" url={`/${PATH_NAMES.auth.signUp}`} />
+        </Box>
       </Stack>
     </Box>
   )

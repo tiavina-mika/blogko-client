@@ -8,9 +8,9 @@ import PreviewArticle from './containers/article/PreviewArticle';
 import Articles from './containers/article/Articles';
 import Layout from './components/layout/Layout';
 import { PATH_NAMES } from './utils/constants';
-import Login from './containers/auth/login/Login';
-import DashboardLayout from './components/layout/AuthLayout';
+import Login from './containers/auth/Login';
 import AuthLayout from './components/layout/AuthLayout';
+import SignUp from './containers/auth/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: PATH_NAMES.auth.login,
         element: <Login />,
+      },
+      {
+        path: PATH_NAMES.auth.signUp,
+        element: <SignUp />,
       }
     ]
   }

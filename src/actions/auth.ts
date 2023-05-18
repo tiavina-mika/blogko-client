@@ -1,11 +1,12 @@
 import Parse from 'parse';
-import { ILoginInput, IUser, IUserInput } from '../types/user.type';
+import { ILoginInput, IUser } from '../types/user.type';
 import { setValues } from '../utils/utils';
 import { PATH_NAMES } from '../utils/constants';
+import { SignUpInput } from '../types/auth.type';
 
-const SIGNUP_PROPERTIES = new Set(['email', 'password', 'username', 'name']);
+const SIGNUP_PROPERTIES = new Set(['email', 'password', 'username', 'firstName', 'lastName']);
 
-export const signUp = async (values: IUserInput): Promise<void> => {
+export const signUp = async (values: SignUpInput): Promise<void> => {
   try {
     const user = new Parse.User();
     setValues(user, values, SIGNUP_PROPERTIES)
@@ -44,7 +45,7 @@ export const login = async (values: ILoginInput): Promise<void> => {
   
     const currentUser =  await Parse.User.currentAsync();
 
-    if (!currentUser || !currentUser.getSessionToken()) {
+    if (!currentUser || (currentUser && !currentUser.getSessionToken())) {
       throw new Error('Loggin failed');
     }
 
@@ -85,3 +86,4 @@ export const deleteMyAccount = async (): Promise<Parse.User | null | undefined> 
 }
 
 export const goToLogin = () => '/' + PATH_NAMES.auth.login;
+export const goToSignUp = () => '/' + PATH_NAMES.auth.signUp;

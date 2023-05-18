@@ -5,6 +5,7 @@ export const PATH_NAMES = {
     edit: 'edit',
   },
   auth: {
-    login: 'login'
+    login: 'login',
+    signUp: 'signup',
   }
 }

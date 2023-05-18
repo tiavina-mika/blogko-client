@@ -87,3 +87,12 @@ export const setValues = (parseObject: Attributes, values: Record<string, any>, 
     setValue(parseObject, key, value);
   }
 };
+
+const isCleanedString = (string: string | Record<string, any> | number): boolean => {
+  return !!(!string || typeof string !== 'string' || (string && string.trim().length === 0));
+};
+
+export const capitalizeFirstLetter = (string: string): string => {
+  if (isCleanedString(string)) return '';
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
