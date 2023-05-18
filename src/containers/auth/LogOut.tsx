@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { goToLogin, logout } from "../../actions/auth";
 import { useMutation } from "@tanstack/react-query";
 
+import { goToLogin, logout } from "../../actions/auth";
 import Loading from "../../components/Loading";
 
 const LogOut = () => {
