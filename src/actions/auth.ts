@@ -4,15 +4,16 @@ import { setValues } from '../utils/utils';
 import { PATH_NAMES } from '../utils/constants';
 import { SignUpInput } from '../types/auth.type';
 
-const SIGNUP_PROPERTIES = new Set(['email', 'password', 'username', 'firstName', 'lastName']);
+const SIGNUP_PROPERTIES = new Set(['email', 'password', 'username', 'firstName', 'lastName', 'username']);
 
 export const signUp = async (values: SignUpInput): Promise<void> => {
   try {
     const user = new Parse.User();
-    setValues(user, values, SIGNUP_PROPERTIES)
+    const newValues = { username: values.email, ...values };
+    setValues(user, newValues, SIGNUP_PROPERTIES)
 
     const newUser = await user.signUp();
-    console.log('signUp user id: ', newUser.toJSON());
+    console.log('signUp user: ', newUser.toJSON());
 
     const roles = await Parse.Cloud.run('getRolesForUser');
 
@@ -106,3 +107,4 @@ export const deleteMyAccount = async (): Promise<Parse.User | null | undefined> 
 
 export const goToLogin = () => '/' + PATH_NAMES.auth.login;
 export const goToSignUp = () => '/' + PATH_NAMES.auth.signUp;
+export const goToLogOut = () => '/' + PATH_NAMES.auth.logOut;

@@ -37,7 +37,7 @@ const Login = () => {
       // pass the error to the parent layout
       setLayoutError((error as Error).message);
     }
-  })
+  });
 
   const { handleSubmit } = form;
 

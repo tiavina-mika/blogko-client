@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
 import { Alert, Box, Card, CardContent } from '@mui/material';
 
@@ -8,13 +8,12 @@ import { goToHome } from '../../actions/home';
 import { useState } from 'react';
 
 const AuthLayout = () => {
-  const navigate = useNavigate();
   const { data: hasUser } = useQuery(['hasUserConnected'], () => hasUserConnected());
 
   const [error, setError] = useState<string>('');
 
   if (hasUser) {
-    navigate(goToHome());
+    return <Navigate  to={goToHome()} />;
   }
 
   return (

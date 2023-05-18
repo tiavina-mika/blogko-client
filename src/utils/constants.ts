@@ -7,5 +7,6 @@ export const PATH_NAMES = {
   auth: {
     login: 'login',
     signUp: 'signup',
+    logOut: 'logout',
   }
 }
