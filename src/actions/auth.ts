@@ -56,6 +56,25 @@ export const login = async (values: ILoginInput): Promise<void> => {
   }
 }
 
+export const hasUserConnected = async (): Promise<boolean> => {
+  try {
+    const user = await Parse.User.currentAsync();
+
+    if (!user) {
+      return false;
+    }
+
+    if (!user.getSessionToken()) {
+      return false
+    }
+    
+    return true;
+  } catch (error) {
+    console.log(' ------ hasUserConnected error: ', error);
+    return false;
+  }
+}
+
 // TODO: change to IUser later
 export const getCurrentUser = async (): Promise<IUser | null | undefined> => {
   try {

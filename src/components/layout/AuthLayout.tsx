@@ -1,16 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
-import { Box, Card, CardContent } from '@mui/material';
+import { Alert, Box, Card, CardContent } from '@mui/material';
 
-import { getCurrentUser } from '../../actions/auth';
+import { hasUserConnected } from '../../actions/auth';
 import { goToHome } from '../../actions/home';
+import { useState } from 'react';
 
 const AuthLayout = () => {
   const navigate = useNavigate();
-  const { isSuccess } = useQuery(['currentUser'], () => getCurrentUser());
+  const { data: hasUser } = useQuery(['hasUserConnected'], () => hasUserConnected());
 
-  if (isSuccess) {
+  const [error, setError] = useState<string>('');
+
+  if (hasUser) {
     navigate(goToHome());
   }
 
@@ -19,7 +22,12 @@ const AuthLayout = () => {
       <Box sx={{ minHeight: '100vh' }} className="flexCenter">
         <Card sx={{ width: 400 }}>
           <CardContent>
-            <Outlet />
+            {error && (
+              <Alert severity="error" sx={{ mb: 1.5 }}>
+                {error}
+              </Alert>
+            )}
+            <Outlet context={{ layoutError: error, setLayoutError: setError }} />
           </CardContent>
         </Card>
       </Box>

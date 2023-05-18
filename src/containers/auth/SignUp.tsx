@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -11,9 +11,12 @@ import { loginSchema } from '../../utils/vaildations/auth.validation';
 import Form from '../../components/form/Form';
 import AuthLink from './AuthLink';
 import { PATH_NAMES } from '../../utils/constants';
+import TextField from '../../components/form/TextField';
+import { ILayoutError } from '../../types/app.type';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { setLayoutError } = useOutletContext<ILayoutError>();
 
   const form = useForm<SignUpInput>({
     resolver: zodResolver(loginSchema),
@@ -26,6 +29,11 @@ const SignUp = () => {
     onSuccess: () => {
       navigate(goToLogin());
     },
+    onError: (error) => {
+      if (!error) return;
+      // pass the error to the parent layout
+      setLayoutError((error as Error).message);
+    }
   })
 
   const { handleSubmit } = form;

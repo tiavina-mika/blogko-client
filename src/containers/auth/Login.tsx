@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -11,9 +11,14 @@ import { loginSchema } from '../../utils/vaildations/auth.validation';
 import Form from '../../components/form/Form';
 import AuthLink from './AuthLink';
 import { PATH_NAMES } from '../../utils/constants';
+import { goToHome } from '../../actions/home';
+import TextField from '../../components/form/TextField';
+import { ILayoutError } from '../../types/app.type';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const { setLayoutError } = useOutletContext<ILayoutError>();
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -21,11 +26,17 @@ const Login = () => {
 
   const {
     mutate: onLogin,
+    // error,
     isLoading,
   } = useMutation<void, unknown, LoginInput>(login, {
     onSuccess: () => {
-      navigate(goToLogin())
+      navigate(goToHome())
     },
+    onError: (error) => {
+      if (!error) return;
+      // pass the error to the parent layout
+      setLayoutError((error as Error).message);
+    }
   })
 
   const { handleSubmit } = form;
@@ -45,6 +56,8 @@ const Login = () => {
           onSubmit={handleSubmit(onSubmitHandler)}
           loading={isLoading}
           primaryButtonText="Login"
+          // error={error}
+          // error={(error as Error)?.message}
         >
           <TextField
             name="email"
