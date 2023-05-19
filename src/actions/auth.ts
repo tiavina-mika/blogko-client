@@ -1,8 +1,8 @@
 import Parse from 'parse';
-import { ILoginInput, IUser } from '../types/user.type';
+import { IUser } from '../types/user.type';
 import { setValues } from '../utils/utils';
 import { PATH_NAMES } from '../utils/constants';
-import { SignUpInput } from '../types/auth.type';
+import { LoginInput, SignUpInput } from '../types/auth.type';
 
 const SIGNUP_PROPERTIES = new Set(['email', 'password', 'username', 'firstName', 'lastName', 'username']);
 
@@ -37,7 +37,7 @@ export const logout = async (): Promise<void> => {
   }
 }
 
-export const login = async (values: ILoginInput): Promise<void> => {
+export const login = async (values: LoginInput): Promise<void> => {
   try {
     const loggedInUser = await Parse.User.logIn(values.email, values.password);
     if (!loggedInUser) {
