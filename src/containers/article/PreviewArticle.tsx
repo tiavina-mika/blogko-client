@@ -1,25 +1,26 @@
+import { useQuery } from '@tanstack/react-query';
 import { Stack, Box, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { getArticle } from '../../actions/articles';
-import { IArticle } from '../../types/article.type';
 import { useParams } from 'react-router-dom';
 
+import { getArticle } from '../../actions/articles';
+import { IGetRouteParams } from '../../types/utils.type';
+import Loading from '../../components/Loading';
+
 const PreviewArticle = () => {
+  const params = useParams<IGetRouteParams>();
+  const { isLoading, data: article } = useQuery(['article', params.id], () => getArticle((params as IGetRouteParams)?.id), {
+    retry: 1
+  });
 
-  const params = useParams();
-  const [article, setArticle] = useState<IArticle | null>(null);
+  if (isLoading) {
+    return <Loading />
+  }
 
-  useEffect(() => {
-    const init = async () => {
-
-      const _article = await getArticle((params as any).id, true);
-
-      if (!_article) return;
-      setArticle(_article as IArticle)
-    };
-
-    init();
-  }, [params])
+  if (!article) {
+    return (
+      <h1>Article not found</h1>
+    )
+  }
 
   return (
     <Box className="flexCenter">

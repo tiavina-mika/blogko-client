@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { styled } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,14 +16,24 @@ import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Navigate, Link as RouterLink } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { grey } from '@mui/material/colors';
+
+import { Button, Link, Stack } from '@mui/material';
 
 import { goToArticles } from '../../actions/articles';
+import { getCurrentUser, goToLogOut, goToLogin } from '../../actions/auth';
+
+import SnackBar from '../SnackBar';
+import { goToHome } from '../../actions/home';
 
 const drawerWidth = 240;
 const appBarHeight = 64;
 
+const StyledToolbar = styled(Toolbar)({
+  backgroundColor: grey[900],
+});
 interface ISideBarItem {
   url: string;
   label: string;
@@ -46,18 +57,31 @@ interface Props {
   // children: ReactNode;
 }
 
-const Layout = ({ window }: Props) => {
+const DashboardLayout = ({ window }: Props) => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const {  data: currentUser, isError: isCurrentUserError, isLoading } = useQuery(['currentUser'], () => getCurrentUser(), {
+    retry: 1
+  });
+
+  if (!isLoading && (!currentUser || isCurrentUserError)) {
+    return <Navigate  to={goToLogin()} />;
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const onCloseSnackBar = () => setError('');
+
+  const _onLogout = () => {
+   navigate(goToLogOut());
+  }
+
   const drawer = (
     <div>
-      <Toolbar />
-      <Divider />
       {sideBarItems.map((path:ISideBarItem, index: number) => (
           <ListItem key={index} disablePadding>
             <ListItemButton onClick={() => navigate(path.url)}>
@@ -84,7 +108,7 @@ const Layout = ({ window }: Props) => {
           height: appBarHeight
         }}
       >
-        <Toolbar>
+        <StyledToolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -94,10 +118,13 @@ const Layout = ({ window }: Props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Blogko
-          </Typography>
-        </Toolbar>
+          <Box sx={{ flex: 1 }} />
+          <Stack>
+            <Button onClick={_onLogout} sx={{ color: '#fff', textTransform: 'initial' }}>
+              Logout
+            </Button>
+          </Stack>
+        </StyledToolbar>
       </AppBar>
       <Box
         component="nav"
@@ -119,8 +146,8 @@ const Layout = ({ window }: Props) => {
           }}
         >
         <List>
-        {drawer}
-      </List>
+          {drawer}
+        </List>
         </Drawer>
         <Drawer
           variant="permanent"
@@ -130,7 +157,17 @@ const Layout = ({ window }: Props) => {
           }}
           open
         >
-          {drawer}
+          <StyledToolbar>
+            <Box className="flexCenter" sx={{ flexGrow: 1 }}>
+              <Link component={RouterLink} to={goToHome()} sx={{ color: '#fff', fontWeight: 700, fontSize: 22 }}>
+                Blogko
+              </Link>
+            </Box>
+          </StyledToolbar>
+          <Divider />
+          <List>
+            {drawer}
+          </List>
         </Drawer>
       </Box>
       <Box
@@ -138,12 +175,15 @@ const Layout = ({ window }: Props) => {
         sx={{ flexGrow: 1, p: 3, minHeight: '100vh', width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
+        {/* children */}
         <Box sx={{ minHeight: `calc(100% - ${appBarHeight}px)`}} className="flexColumn">
-          <Outlet />
+          <Outlet context={{ layoutError: error, setLayoutError: setError, user: currentUser }} />
         </Box>
+        {/* error snackbar */}
+        <SnackBar open={!!error} message={error} severity="error" onClose={onCloseSnackBar} />
       </Box>
     </Box>
   );
 }
 
-export default Layout;
+export default DashboardLayout;

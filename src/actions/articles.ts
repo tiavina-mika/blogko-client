@@ -1,6 +1,6 @@
 import Parse from 'parse';
 
-import { IArticleInput } from "../types/article.type";
+import { IArticle, IArticleInput } from "../types/article.type";
 import { PATH_NAMES } from '../utils/constants';
 
 const Article = Parse.Object.extend("Article");
@@ -17,72 +17,73 @@ const queryArticle = async (id: string): Promise<Parse.Object | undefined>  => {
 
   return article;
 }
-export const createArticle = async (values: IArticleInput): Promise<Parse.Object | undefined> => {
+export const createArticle = async (values: IArticleInput): Promise<IArticle | undefined> => {
   try {
     const article = new Article();
     article.set('title', values.title);
     const newArticle = await article.save();
 
-    console.log('newArticleJson id: ', newArticle.toJSON());
-    return newArticle
-
+    return newArticle.toJSON();
   } catch (error) {
     console.log(' ------ createArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
-export const updateArticle = async (id: string, values: IArticleInput): Promise<Parse.Object | undefined> => {
+export const updateArticle = async (id: string, values: IArticleInput): Promise<IArticle | undefined> => {
   try {
     const article = await queryArticle(id);
 
     if (!article) return;
   
     article.set('title', values.title);
-    const newArticle = await article.save();
-    console.log(' ------ updateArticle newArticle: ', newArticle);
-    return newArticle
+    const updatedArticle = await article.save();
+
+    return (updatedArticle as Parse.Attributes).toJSON();
   } catch (error) {
     console.log('updateArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
-export const deleteArticle = async (id: string): Promise<void> => {
+export const deleteArticle = async (id: string): Promise<string | undefined> => {
   try {
     const article = await queryArticle(id);
     if (!article) return;
   
     await article.destroy();
+    return id;
   } catch (error) {
     console.log('deleteArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
-export const getArticles = async (toJson = true): Promise<Parse.Object[] | undefined> => {
+export const getArticles = async (): Promise<IArticle[]> => {
   try {
-    const articles = await new Parse.Query(Article)
-      .include(['user', 'category'])
-      .find();
+    const articles = (await new Parse.Query(Article)
+    .include(['user', 'category'])
+    .find()) || [];
   
     // console.log(articles[0].toJSON().category.name);
-    if (toJson) {
-      return articles.map((article: any) => article.toJSON())
-    }
-
-    return articles
+    return articles.map((article: any) => article.toJSON())
   } catch (error) {
     console.log('getArticles error: ', error);
+    return Promise.reject(error)
   }
 }
 
-export const getArticle = async (id: string, toJson = false): Promise<Parse.Object | undefined> => {
+export const getArticle = async (id: string): Promise<IArticle | undefined> => {
   try {
     const article = await queryArticle(id);
   
     console.log(' ------ getArticle articles: ', article);
     if(!article) return;
-    return toJson ? (article as any).toJSON(): article;
+
+    return (article as Parse.Attributes).toJSON();
   } catch (error) {
     console.log('getArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 
@@ -97,6 +98,7 @@ export const deleteAllArticles = async (): Promise<void> => {
     console.log(' ------ deleteAllArticles: ');
   } catch (error) {
     console.log('getArticle error: ', error);
+    return Promise.reject(error);
   }
 }
 

@@ -9,9 +9,11 @@ const StyledButton = styled(Button)({
 const Auth = () => {
   const handleSignUp = async () => {
     const values = {
-      name: 'zo',
+      lastName: 'Zo',
+      firstName: 'Mick',
       email: 'user1@gmail.com',
       password: 'user1@gmail.com',
+      passwordConfirmation: 'user1@gmail.com',
       username: 'user1@gmail.com'
     }
     await signUp(values)
