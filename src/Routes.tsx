@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Test from './containers/home/Test';
+import Test from './containers/test/Test';
 import EditArticle from './containers/article/EditArticle';
 import CreateArticle from './containers/article/CreateArticle';
 import PreviewArticle from './containers/article/PreviewArticle';

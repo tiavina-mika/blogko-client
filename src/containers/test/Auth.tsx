@@ -9,8 +9,8 @@ const StyledButton = styled(Button)({
 const Auth = () => {
   const handleSignUp = async () => {
     const values = {
-      lastName: 'Zo',
-      firstName: 'Mick',
+      lastName: 'User One',
+      firstName: 'Mik',
       email: 'user1@gmail.com',
       password: 'user1@gmail.com',
       passwordConfirmation: 'user1@gmail.com',
@@ -39,6 +39,22 @@ const Auth = () => {
     await deleteMyAccount()
   }
 
+  const handleMultipleSignUp = async () => {
+    for (const number of [4, 5, 6, 7, 8, 9]) {
+      const email = `user${number}@gmail.com`
+      const values = {
+        lastName: 'User ' + number,
+        firstName: 'Test',
+        email,
+        password: email,
+        passwordConfirmation: email,
+        username: email
+      }
+
+      await signUp(values)
+    }
+  }
+
   return (
     <Stack spacing={2}>
       <Typography variant="h5">
@@ -49,6 +65,7 @@ const Auth = () => {
       <StyledButton variant="contained" color="info" onClick={handleLogOut}>Log out</StyledButton>
       <StyledButton variant="contained" color="info" onClick={handleProfile}>Profile</StyledButton>
       <StyledButton variant="contained" color="info" onClick={handleDeleteMyAccount}>Delete my account</StyledButton>
+      <StyledButton variant="contained" color="info" onClick={handleMultipleSignUp}>Create Multiple User</StyledButton>
     </Stack>
   );
 }
