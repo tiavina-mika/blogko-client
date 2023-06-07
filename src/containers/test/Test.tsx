@@ -3,6 +3,7 @@ import Articles from './Articles';
 import Categories from './Categories';
 import Auth from './Auth';
 import Settings from './Settings';
+import Search from './Search';
 
 const StyledContainer = styled('div')({
   padding: 12,
@@ -19,6 +20,7 @@ const Test = () => {
         <Categories />
         <Auth />
         <Settings />
+        <Search />
       </Stack>
     </StyledContainer>      
 
